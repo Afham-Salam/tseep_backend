@@ -10,7 +10,7 @@ var router = express.Router();
 router.post("/register", async (req, res) => {
     try {
       const { name, email, mobileNo, password, status } = req.body;
-      // Check if user already exists
+
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(400).json({
@@ -89,7 +89,7 @@ router.post("/login", async (req, res) => {
   
       // Generate JWT token
       const token = jwt.sign(
-        { userId: user._id, status: user.status }, // 'status' instead of 'role'
+        { userId: user._id, status: user.status }, 
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );

@@ -55,24 +55,6 @@ router.post("/submit-answers", async (req, res) => {
   }
 });
 
-// router.get('/get-result/:userId',async(req,res)=>{
-//  try {
-//   const {userId}=req.params;
-//    const result = await TestResult.findOne({ userId });
-//   if(!result)
-//   {
-//     return res.status(404).json({ success: false, message: "Result not found" });
-//   }
-//   res.status(200).json({success:true,result})
-  
-//  } catch (error) {
-//   res.status(500).json({ message: "error  on fetch result" });
-//  }
-
-// })
-
-
-
 router.get("/get-result/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -81,10 +63,14 @@ router.get("/get-result/:userId", async (req, res) => {
       return res.status(400).json({ message: "User ID is required" });
     }
 
-    const testResult = await TestResult.find({ userId }).sort({ createdAt: -1 });
+    const testResult = await TestResult.find({ userId }).sort({
+      createdAt: -1,
+    });
 
     if (!testResult) {
-      return res.status(404).json({ message: "No test result found for this user" });
+      return res
+        .status(404)
+        .json({ message: "No test result found for this user" });
     }
 
     return res.json({ success: true, result: testResult });
@@ -93,6 +79,5 @@ router.get("/get-result/:userId", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 module.exports = router;
